@@ -8,12 +8,48 @@ import com.example.registro_login.service.dto.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
 
     private UserRepository userRepository;
+    private static final Set<Character> specialCharactersSet = new HashSet<>();
+
+    static {
+        specialCharactersSet.add('!');
+        specialCharactersSet.add('@');
+        specialCharactersSet.add('#');
+        specialCharactersSet.add('$');
+        specialCharactersSet.add('%');
+        specialCharactersSet.add('^');
+        specialCharactersSet.add('&');
+        specialCharactersSet.add('*');
+        specialCharactersSet.add('(');
+        specialCharactersSet.add(')');
+        specialCharactersSet.add('_');
+        specialCharactersSet.add('+');
+        specialCharactersSet.add('-');
+        specialCharactersSet.add('=');
+        specialCharactersSet.add('[');
+        specialCharactersSet.add(']');
+        specialCharactersSet.add('{');
+        specialCharactersSet.add('}');
+        specialCharactersSet.add(';');
+        specialCharactersSet.add(':');
+        specialCharactersSet.add('\'');
+        specialCharactersSet.add('"');
+        specialCharactersSet.add('\\');
+        specialCharactersSet.add('|');
+        specialCharactersSet.add(',');
+        specialCharactersSet.add('.');
+        specialCharactersSet.add('<');
+        specialCharactersSet.add('>');
+        specialCharactersSet.add('/');
+        specialCharactersSet.add('?');
+    }
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -25,11 +61,12 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByEmail(userPasswordResetDto.getEmail());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setPassword(userPasswordResetDto.getPassword());
-            userRepository.save(user); // Todo bien falta mandar el mail con la nueva contraseña
+            if (validatePassword(userPasswordResetDto.getPassword())){
+                user.setPassword(userPasswordResetDto.getPassword());
+                userRepository.save(user);
+            } else return false; // Todo bien falta mandar el mail con la nueva contraseña
             return true;
         } else {
-            // Todo mal
             return false;
         }
     }
@@ -38,7 +75,7 @@ public class UserService {
 
         if (validateEmail(userRegistrationDto.getEmail()) && validatePassword(userRegistrationDto.getPassword())){
             User user = new User(userRegistrationDto.getName(), userRegistrationDto.getLastName(),
-                    userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
+                    userRegistrationDto.getEmail(), userRegistrationDto.getPassword()); // No funciona
             userRepository.save(user);
             return true;
         }
@@ -66,7 +103,7 @@ public class UserService {
                 hasUppercase = true;
             } else if (Character.isDigit(c)) {
                 hasDigit = true;
-            } else if (!isSpecialCharacter(c)) {
+            } else if (isSpecialCharacter(c)) {
                 hasSpecialChar = true;
             }
         }
@@ -75,8 +112,7 @@ public class UserService {
     }
 
     private static boolean isSpecialCharacter(char ch) {
-        String specialCharacters = "[!@#$%^&*.()_+\\-=\\[\\]{};':\"\\\\|,<>/?]+";
-        return String.valueOf(ch).matches(specialCharacters);
+        return specialCharactersSet.contains(ch);
     }
 
     public boolean userLogin(UserLoginDto userLoginDto) throws Exception {

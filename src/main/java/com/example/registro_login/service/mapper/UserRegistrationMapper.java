@@ -9,6 +9,8 @@ public class UserRegistrationMapper {
 
     public UserRegistrationDto toDto(RegisterRequest request) {
         UserRegistrationDto result = new UserRegistrationDto();
+        result.setName(request.getName());
+        result.setLastName(request.getLastName());
         result.setEmail(request.getEmail());
         result.setPassword(request.getPassword());
         return result;

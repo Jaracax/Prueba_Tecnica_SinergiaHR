@@ -1,7 +1,7 @@
 package com.example.registro_login.rest.request;
 
 
-public class ResetRequest {
+public class ResetPasswordRequest {
 
     private String email;
     private String password;

@@ -1,6 +1,6 @@
 package com.example.registro_login.rest.response;
 
-public class ResetResponse {
+public class ResetPasswordResponse {
 
     private String password;
 
