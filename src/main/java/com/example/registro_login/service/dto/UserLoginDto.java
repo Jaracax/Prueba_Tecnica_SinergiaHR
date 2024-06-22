@@ -1,7 +1,6 @@
-package com.example.registro_login.rest.request;
+package com.example.registro_login.service.dto;
 
-
-public class ResetRequest {
+public class UserLoginDto {
 
     private String email;
     private String password;

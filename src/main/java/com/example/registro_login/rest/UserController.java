@@ -5,26 +5,47 @@ import com.example.registro_login.rest.request.RegisterRequest;
 import com.example.registro_login.rest.request.ResetRequest;
 import com.example.registro_login.rest.response.LoginResponse;
 import com.example.registro_login.rest.response.RegisterResponse;
-import com.example.registro_login.rest.response.ResetResponse;
-import org.springframework.http.HttpStatus;
+import com.example.registro_login.service.UserService;
+import com.example.registro_login.service.mapper.UserLoginMapper;
+import com.example.registro_login.service.mapper.UserPasswordResetMapper;
+import com.example.registro_login.service.mapper.UserRegistrationMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
     // fields? Of what type? Probably of the UserService
+    private UserService service;
+    private UserLoginMapper loginMapper;
+    private UserRegistrationMapper registrationMapper;
+    private UserPasswordResetMapper passwordResetMapper;
+
+    @Autowired
+    public UserController(UserService service, UserLoginMapper loginMapper, UserRegistrationMapper registrationMapper, UserPasswordResetMapper passwordResetMapper) {
+        this.service = service;
+        this.loginMapper = loginMapper;
+        this.registrationMapper = registrationMapper;
+        this.passwordResetMapper = passwordResetMapper;
+    }
 
     // Autowired annotation above a constructor of the fields above this
 
     @PostMapping("/resetPassword")
-    public ResponseEntity<ResetResponse> processResetPassword(@RequestBody ResetRequest request){
-        ResetResponse response = new ResetResponse();
-        response.setPassword("new password"); // No devolerle la password al usuario
+    public ResponseEntity processResetPassword(@RequestBody ResetRequest request){
 
-        return ResponseEntity.ok(response);
-
+        // si con los datos de entrada, pude cambiar la contraseña
+        if (service.resetPassword(passwordResetMapper.toDto(request))) {
+            return ResponseEntity.ok().build(); // Todo bien
+        } else {
+            // si no pude
+            return ResponseEntity.badRequest().build(); // todo mal
+        }
 //        public (no se que deberia devolver) resetPassword(@RequestParam String email) {
 //            userService.resetPassword(email);
 //            return aca deberia mandarle la nueva contraseña al mail, ni idea de como hacer eso.
@@ -32,12 +53,19 @@ public class UserController {
 
     @PostMapping("/registration")
     public ResponseEntity<RegisterResponse> processIncomingRegisterRequest(@RequestBody RegisterRequest request){
-        RegisterResponse response = new RegisterResponse();
-        response.setName("Daniel");
-        response.setLastName("Chirinos");
-        response.setEmail("example@gmal.com");
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        // No hay verificacion para el nombre y apellido
+        // Se verifica que el email y la contraseña cumplan con las verificaciones
+        if (service.userRegistration(registrationMapper.toDto(request))){
+            return ResponseEntity.ok().build(); // Todo bien
+        } else return ResponseEntity.badRequest().build(); // todo mal
+
+        //        RegisterResponse response = new RegisterResponse();
+//        response.setName("Daniel");
+//        response.setLastName("Chirinos");
+//        response.setEmail("example@gmal.com");
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
 
 
@@ -50,12 +78,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> processIncomingLoginRequest(@RequestBody LoginRequest request) {
 
-        LoginResponse response = new LoginResponse();
-        response.setName("Jose");
-        response.setLastName("Dominguez");
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
+        // Si el email y la contraseña son validos
+        if (service.userLogin(loginMapper.toDto(request))){
+            return ResponseEntity.ok().build(); // Todo bien
+        } else return ResponseEntity.badRequest().build(); // todo mal
 
 
         //        public (no se que deberia devolver) login(@RequestParam String email, @RequestParam String password){
