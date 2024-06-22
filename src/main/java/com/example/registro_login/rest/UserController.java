@@ -10,11 +10,13 @@ import com.example.registro_login.service.mapper.UserLoginMapper;
 import com.example.registro_login.service.mapper.UserPasswordResetMapper;
 import com.example.registro_login.service.mapper.UserRegistrationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api")
@@ -57,7 +59,11 @@ public class UserController {
         // No hay verificacion para el nombre y apellido
         // Se verifica que el email y la contraseña cumplan con las verificaciones
         if (service.userRegistration(registrationMapper.toDto(request))){
-            return ResponseEntity.ok().build(); // Todo bien
+            RegisterResponse registerResponse = new RegisterResponse();
+            registerResponse.setEmail(request.getEmail());
+            registerResponse.setName(request.getName());
+            registerResponse.setLastName(request.getLastName());
+            return ResponseEntity.ok(registerResponse); // Todo bien
         } else return ResponseEntity.badRequest().build(); // todo mal
 
         //        RegisterResponse response = new RegisterResponse();
@@ -79,11 +85,14 @@ public class UserController {
     public ResponseEntity<LoginResponse> processIncomingLoginRequest(@RequestBody LoginRequest request) {
 
         // Si el email y la contraseña son validos
-        if (service.userLogin(loginMapper.toDto(request))){
-            return ResponseEntity.ok().build(); // Todo bien
-        } else return ResponseEntity.badRequest().build(); // todo mal
 
+        try{
+           return ResponseEntity.ok(service.userLogin(loginMapper.toDto(request))); // Todo bien
+        } catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email o contraseña incorrecto");
+        }
 
+        // Si todo mal lanzar el mensaje de usuario o contraseña incorrecto
         //        public (no se que deberia devolver) login(@RequestParam String email, @RequestParam String password){
 //        Optional<Entity> entity = userService.findUserByEmailAndPassword;
 //        if(entity.isPresent()) {

@@ -1,5 +1,6 @@
 package com.example.registro_login.service;
 
+import com.example.registro_login.rest.response.LoginResponse;
 import com.example.registro_login.service.dto.UserLoginDto;
 import com.example.registro_login.service.dto.UserPasswordResetDto;
 import com.example.registro_login.service.dto.UserRegistrationDto;
@@ -36,13 +37,13 @@ public class UserService {
         return true;
     }
 
-    public boolean userLogin(UserLoginDto userLoginDto){
+    public LoginResponse userLogin(UserLoginDto userLoginDto) throws Exception {
 
         // Se verifica que el email que se usa en el login exista en la db
         // Si existe verificar que ese email este asociado a la contraseña que viene del dto
-        // Si todo bien, no se.
-        // Si todo mal lanzar mensaje de "usuario/contraseña incorrecto
-        return true;
+        // Si todo bien retorna el objeto
+        // Si todo mal con una exception
+        throw new Exception();
     }
 
 
