@@ -1,51 +1,91 @@
 package com.example.registro_login.service;
 
-import com.example.registro_login.rest.response.LoginResponse;
+import com.example.registro_login.persistence.entity.User;
+import com.example.registro_login.persistence.repository.UserRepository;
 import com.example.registro_login.service.dto.UserLoginDto;
 import com.example.registro_login.service.dto.UserPasswordResetDto;
 import com.example.registro_login.service.dto.UserRegistrationDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    // Aca iria un field de tipo repository de la entity
+    private UserRepository userRepository;
 
-    // Un constructor con la annotation autowired
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public boolean resetPassword(UserPasswordResetDto userPasswordResetDto) {
 
-        // si email pertenece a un usiario registrado
-        // devolver de la DB un usuario por el email
-        // si no existe ninguno (Optional.isEmpty()) return false;
-        // actualizarlo en la db
-        // repository.save
-        // enviar un mail al usuario confirmando que su clave fue cambiada con éxito
-        return true; // todo bien
+        Optional<User> optionalUser = userRepository.findByEmail(userPasswordResetDto.getEmail());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPassword(userPasswordResetDto.getPassword());
+            userRepository.save(user); // Todo bien falta mandar el mail con la nueva contraseña
+            return true;
+        } else {
+            // Todo mal
+            return false;
+        }
     }
 
     public boolean userRegistration(UserRegistrationDto userRegistrationDto){
 
-
-        // No hay verificacion para el nombre y el apellido
-        // Se verifica que el mail incluya un "@"
-        // Se verifica que la contraseña
-        // incluya al menos una letra mayuscula, miniscula,
-        // numero, símbolo y que su longitud no sea mayor a 8 caracteres
-        // Si todo se cumple, hacer repository.save
-        // Si el mail es invalido, dejar saber que el mail le falta el "@" si la contraseña falla dejar saber.
-        return true;
+        if (validateEmail(userRegistrationDto.getEmail()) && validatePassword(userRegistrationDto.getPassword())){
+            User user = new User(userRegistrationDto.getName(), userRegistrationDto.getLastName(),
+                    userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
-    public LoginResponse userLogin(UserLoginDto userLoginDto) throws Exception {
-
-        // Se verifica que el email que se usa en el login exista en la db
-        // Si existe verificar que ese email este asociado a la contraseña que viene del dto
-        // Si todo bien retorna el objeto
-        // Si todo mal con una exception
-        throw new Exception();
+    private boolean validateEmail(String email){
+        return email != null && email.contains("@");
     }
 
+    private boolean validatePassword(String password) {
+        if (password == null || password.length() < 8) {
+            return false;
+        }
 
+        boolean hasLowercase = false;
+        boolean hasUppercase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
 
+        for (char c : password.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                hasLowercase = true;
+            } else if (Character.isUpperCase(c)) {
+                hasUppercase = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (!isSpecialCharacter(c)) {
+                hasSpecialChar = true;
+            }
+        }
+
+        return hasLowercase && hasUppercase && hasDigit && hasSpecialChar;
+    }
+
+    private static boolean isSpecialCharacter(char ch) {
+        String specialCharacters = "[!@#$%^&*.()_+\\-=\\[\\]{};':\"\\\\|,<>/?]+";
+        return String.valueOf(ch).matches(specialCharacters);
+    }
+
+    public boolean userLogin(UserLoginDto userLoginDto) throws Exception {
+        Optional<User> optionalUser = userRepository.findByEmail(userLoginDto.getEmail());
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            if (user.getPassword().equals(userLoginDto.getPassword())){
+                return true;
+            } else throw new Exception("Invalid password");
+        } else throw new Exception("User not found");
+    }
 }
