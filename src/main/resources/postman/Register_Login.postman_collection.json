@@ -1,0 +1,439 @@
+{
+  "info": {
+    "_postman_id": "8b9a6e74-5464-4542-a341-575277882390",
+    "name": "Register_Login",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "_exporter_id": "23336007"
+  },
+  "item": [
+    {
+      "name": "Registration That is Successful",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"User 1\",\r\n    \"lastName\": \"Lastname 1\",\r\n    \"email\": \"exampleEmail@gmail.com\",\r\n    \"password\": \"123456789Az!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/registration"
+      },
+      "response": []
+    },
+    {
+      "name": "Registration That Fails By Email",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"User 2\",\r\n    \"lastName\": \"Lastname 2\",\r\n    \"email\": \"examplemailgmail.com\",\r\n    \"password\": \"123456789Az!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/registration"
+      },
+      "response": []
+    },
+    {
+      "name": "Registration That Fails By Password Uppercase Letter",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"User 3\",\r\n    \"lastName\": \"Lastname 3\",\r\n    \"email\": \"examplemail@gmail.com\",\r\n    \"password\": \"123456789az!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/registration"
+      },
+      "response": []
+    },
+    {
+      "name": "Registration That Fails By Password Lowercase Letter",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"User 4\",\r\n    \"lastName\": \"Lastname 4\",\r\n    \"email\": \"examplemail@gmail.com\",\r\n    \"password\": \"123456789AZ!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/registration"
+      },
+      "response": []
+    },
+    {
+      "name": "Registration That Fails By Password Number",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"User 5\",\r\n    \"lastName\": \"Lastname 5\",\r\n    \"email\": \"examplemail@gmail.com\",\r\n    \"password\": \"abcdefghz!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/registration"
+      },
+      "response": []
+    },
+    {
+      "name": "Registration That Fails By Password Special Character",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"User 6\",\r\n    \"lastName\": \"Lastname 6\",\r\n    \"email\": \"examplemail@gmail.com\",\r\n    \"password\": \"123456789Az\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/registration"
+      },
+      "response": []
+    },
+    {
+      "name": "Registration That Fails By Password Length",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"User 7\",\r\n    \"lastName\": \"Lastname 7\",\r\n    \"email\": \"examplemail@gmail.com\",\r\n    \"password\": \"123Az!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/registration"
+      },
+      "response": []
+    },
+    {
+      "name": "Login That Exists",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"exampleEmail@gmail.com\",\r\n    \"password\": \"123456789Az!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/login"
+      },
+      "response": []
+    },
+    {
+      "name": "Login That Fails by Email",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"notExistingMail@gmail.com\",\r\n    \"password\": \"26454389Ja18.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/login"
+      },
+      "response": []
+    },
+    {
+      "name": "Login That Fails by Password",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"exampleEmail@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/login"
+      },
+      "response": []
+    },
+    {
+      "name": "Reset Password That Succeeds",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"exampleEmail@gmail.com\",\r\n    \"password\": \"123456789Az!!!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/resetPassword"
+      },
+      "response": []
+    },
+    {
+      "name": "Reset Password That Fails By Email",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"exampleEmail@gmail.commm\",\r\n    \"password\": \"123456789Az!!!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/resetPassword"
+      },
+      "response": []
+    },
+    {
+      "name": "Reset Password That Fails By Password",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true,
+          "accept-encoding": true,
+          "connection": true,
+          "user-agent": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Json",
+            "value": "{value=\"Dani\"}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"exampleEmail@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/resetPassword"
+      },
+      "response": []
+    }
+  ]
+}
