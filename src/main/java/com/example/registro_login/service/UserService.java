@@ -64,11 +64,10 @@ public class UserService {
             if (validatePassword(userPasswordResetDto.getPassword())){
                 user.setPassword(userPasswordResetDto.getPassword());
                 userRepository.save(user);
-            } else return false; // Todo bien falta mandar el mail con la nueva contraseña
-            return true;
-        } else {
-            return false;
+                return true;
+            }
         }
+        return false;
     }
 
     public boolean userRegistration(UserRegistrationDto userRegistrationDto){
@@ -111,18 +110,18 @@ public class UserService {
         return hasLowercase && hasUppercase && hasDigit && hasSpecialChar;
     }
 
-    private static boolean isSpecialCharacter(char ch) {
+    private boolean isSpecialCharacter(char ch) {
         return specialCharactersSet.contains(ch);
     }
 
     public boolean userLogin(UserLoginDto userLoginDto) throws Exception {
-        Exception e = new Exception("Incorrect username/password");
         Optional<User> optionalUser = userRepository.findByEmail(userLoginDto.getEmail());
         if (optionalUser.isPresent()){
             User user = optionalUser.get();
             if (user.getPassword().equals(userLoginDto.getPassword())){
                 return true;
-            } else throw new Exception(e);
-        } else throw new Exception(e);
+            }
+        }
+        throw new Exception("email/contraseña incorrecto");
     }
 }

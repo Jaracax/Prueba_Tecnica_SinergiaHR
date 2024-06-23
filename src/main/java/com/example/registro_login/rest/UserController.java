@@ -68,7 +68,7 @@ public class UserController {
             service.userLogin(loginMapper.toDto(request));
            return ResponseEntity.ok().build();
         } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "email/contraseña incorrecto");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 }
