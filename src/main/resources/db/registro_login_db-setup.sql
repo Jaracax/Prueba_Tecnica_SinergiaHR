@@ -1,0 +1,1 @@
+Create table user (id int primary key auto_increment, name varchar (50) not null, last_name varchar(50) not null, email varchar(75) not null, password varchar (100) not null);
