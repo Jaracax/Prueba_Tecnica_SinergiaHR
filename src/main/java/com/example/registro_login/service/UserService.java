@@ -75,7 +75,7 @@ public class UserService {
 
         if (validateEmail(userRegistrationDto.getEmail()) && validatePassword(userRegistrationDto.getPassword())){
             User user = new User(userRegistrationDto.getName(), userRegistrationDto.getLastName(),
-                    userRegistrationDto.getEmail(), userRegistrationDto.getPassword()); // No funciona
+                    userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
             userRepository.save(user);
             return true;
         }
@@ -116,12 +116,13 @@ public class UserService {
     }
 
     public boolean userLogin(UserLoginDto userLoginDto) throws Exception {
+        Exception e = new Exception("Incorrect username/password");
         Optional<User> optionalUser = userRepository.findByEmail(userLoginDto.getEmail());
         if (optionalUser.isPresent()){
             User user = optionalUser.get();
             if (user.getPassword().equals(userLoginDto.getPassword())){
                 return true;
-            } else throw new Exception("Invalid password");
-        } else throw new Exception("User not found");
+            } else throw new Exception(e);
+        } else throw new Exception(e);
     }
 }
